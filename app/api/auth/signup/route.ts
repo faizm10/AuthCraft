@@ -2,6 +2,10 @@ import { hash } from "bcryptjs";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { z } from "zod";
+import { Resend } from "resend";
+import { randomBytes } from "crypto";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 const signupSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -26,15 +30,16 @@ export async function POST(req: Request) {
       );
     }
 
-    // Hash password
+    const verificationToken = randomBytes(32).toString("hex");
     const hashedPassword = await hash(validatedData.password, 12);
 
-    // Create user
-    const user = await prisma.user.create({
+    // Create user with verification token
+    await prisma.user.create({
       data: {
         email: validatedData.email,
         name: validatedData.name,
         password: hashedPassword,
+        emailVerificationToken: verificationToken,
       },
       select: {
         id: true,
@@ -43,8 +48,23 @@ export async function POST(req: Request) {
       },
     });
 
+    // Send verification email
+    const verificationUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/auth/verify-email?token=${verificationToken}`;
+
+    await resend.emails.send({
+      from: "test@resend.dev",
+      // to: validatedData.email,
+      to: "jaymehta002@gmail.com",
+      subject: "Verify your email",
+      html: `
+        <h1>Welcome to Your App!</h1>
+        <p>Click the link below to verify your email address:</p>
+        <a href="${verificationUrl}">Verify Email</a>
+      `,
+    });
+
     return NextResponse.json(
-      { message: "User created successfully", user },
+      { message: "Please check your email to verify your account" },
       { status: 201 }
     );
   } catch (error) {

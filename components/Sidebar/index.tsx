@@ -30,7 +30,7 @@ import {
 import { signOut } from "next-auth/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-// Menu items.
+// Simplified menu items
 const items = [
   {
     title: "Home",
@@ -38,23 +38,24 @@ const items = [
     icon: Home,
   },
   {
-    title: "Inbox",
-    url: "#",
+    title: "Messages",
+    url: "/messages",
     icon: Inbox,
+    badge: "3",
   },
   {
     title: "Calendar",
-    url: "#",
+    url: "/calendar",
     icon: Calendar,
   },
   {
     title: "Search",
-    url: "#",
+    url: "/search",
     icon: Search,
   },
   {
     title: "Settings",
-    url: "#",
+    url: "/settings",
     icon: Settings,
   },
 ];
@@ -108,28 +109,30 @@ export function AppSidebar() {
 
   return (
     <Sidebar className="border-r border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <SidebarContent className="flex flex-col h-full">
-        {/* Logo or brand section */}
-        <div className="px-6 py-4">
-          <h2 className="text-xl font-bold">App Name</h2>
+      <SidebarContent className="flex flex-col h-full p-4">
+        {/* Brand section */}
+        <div className="px-4 py-6">
+          <h2 className="text-2xl font-semibold">Boilerplate</h2>
         </div>
 
         {/* Main menu */}
         <SidebarGroup className="flex-1">
-          {/* <SidebarGroupLabel className="text-xs font-semibold text-muted-foreground">
-            Application
-          </SidebarGroupLabel> */}
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
-                    className="flex items-center gap-3 px-6 py-2 transition-colors hover:bg-accent hover:text-accent-foreground"
+                    className="flex items-center w-full gap-3 px-4 py-2.5 rounded-lg transition-colors hover:bg-accent hover:text-accent-foreground"
                   >
-                    <a href={item.url}>
-                      <item.icon className="w-4 h-4" />
-                      <span>{item.title}</span>
+                    <a href={item.url} className="flex items-center gap-3">
+                      <item.icon className="w-5 h-5" />
+                      <span className="font-medium">{item.title}</span>
+                      {item.badge && (
+                        <span className="ml-auto bg-primary text-primary-foreground text-xs px-2 py-0.5 rounded-full">
+                          {item.badge}
+                        </span>
+                      )}
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -138,8 +141,7 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Updated User profile section */}
-        <div className="border-t border-border mt-auto p-4">
+        <div className="border-t border-border pt-4">
           <Popover>
             <PopoverTrigger asChild>
               <Button
@@ -150,42 +152,38 @@ export function AppSidebar() {
                 {isLoading ? (
                   <UserProfileSkeleton />
                 ) : (
-                  <div className="flex items-center gap-3 px-2">
-                    <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center">
-                      <Avatar>
-                        <AvatarImage src={userImage} />
-                        <AvatarFallback>{userInitials}</AvatarFallback>
-                      </Avatar>
-                    </div>
-                    <div className="flex flex-col text-left">
-                      <span className="font-medium">
-                        {user?.name || "Anonymous User"}
-                      </span>
+                  <div className="flex items-center gap-3">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={userImage} />
+                      <AvatarFallback className="bg-primary/10">
+                        {userInitials}
+                      </AvatarFallback>
+                    </Avatar>
+                    <span className="font-medium text-sm flex flex-col items-start">
+                      {user?.name || "Anonymous User"}
                       <span className="text-xs text-muted-foreground">
                         {user?.email || "No email"}
                       </span>
-                    </div>
+                    </span>
                   </div>
                 )}
               </Button>
             </PopoverTrigger>
-            {!isLoading && (
-              <PopoverContent className="w-56 p-2" align="start" side="top">
-                <div className="flex flex-col gap-1">
-                  {profileMenuItems.map((item) => (
-                    <Button
-                      key={item.title}
-                      variant="ghost"
-                      className="w-full justify-start gap-2 px-2 py-1.5 text-sm"
-                      onClick={item.onClick}
-                    >
-                      <item.icon className="w-4 h-4" />
-                      {item.title}
-                    </Button>
-                  ))}
-                </div>
-              </PopoverContent>
-            )}
+            <PopoverContent className="w-56 p-2" align="start" side="top">
+              <div className="flex flex-col gap-1">
+                {profileMenuItems.map((item) => (
+                  <Button
+                    key={item.title}
+                    variant="ghost"
+                    className="w-full justify-start gap-3 px-3 py-2 text-sm hover:bg-accent rounded-md"
+                    onClick={item.onClick}
+                  >
+                    <item.icon className="w-4 h-4" />
+                    {item.title}
+                  </Button>
+                ))}
+              </div>
+            </PopoverContent>
           </Popover>
         </div>
       </SidebarContent>
