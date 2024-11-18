@@ -189,3 +189,7 @@ export default function SignupContent() {
     </div>
   );
 }
+
+export function SignupPage() {
+  return <SignupContent />;
+}

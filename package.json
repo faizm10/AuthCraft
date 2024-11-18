@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate"
+    "postinstall": "npx prisma generate"
   },
   "dependencies": {
     "@ai-sdk/openai": "^0.0.72",
@@ -30,6 +30,7 @@
     "next": "15.0.3",
     "next-auth": "^4.24.10",
     "openai-edge": "^1.2.2",
+    "prisma": "^5.22.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "resend": "4.0.1-alpha.0",

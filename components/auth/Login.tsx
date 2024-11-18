@@ -165,3 +165,7 @@ export default function LoginContent() {
     </div>
   );
 }
+
+export function LoginPage() {
+  return <LoginContent />;
+}
