@@ -112,7 +112,7 @@ export function AppSidebar() {
       <SidebarContent className="flex flex-col h-full p-4">
         {/* Brand section */}
         <div className="px-4 py-6">
-          <h2 className="text-2xl font-semibold">Boilerplate</h2>
+          <h2 className="text-2xl font-semibold">AuthCraft</h2>
         </div>
 
         {/* Main menu */}

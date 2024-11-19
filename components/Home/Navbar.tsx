@@ -17,7 +17,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <span className="text-xl font-semibold">Boilerplate</span>
+            <span className="text-xl font-semibold">AuthCraft</span>
           </Link>
 
           {/* Navigation Links - Hidden on mobile */}

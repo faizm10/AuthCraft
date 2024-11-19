@@ -70,7 +70,7 @@ export default function HomePage() {
       <footer className="border-t border-border">
         <div className="container mx-auto px-4 py-6">
           <p className="text-center text-sm text-muted-foreground">
-            © 2024 Boilerplate. Made with ❤️ by Jay Mehta
+            © 2024 AuthCraft. Made with ❤️ by Jay Mehta
           </p>
         </div>
       </footer>
